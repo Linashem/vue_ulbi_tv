@@ -3,9 +3,9 @@
     <p>IT WORKS</p>
     <form class="form">
       <h2>Create post</h2>
-      <input class="input" type="text" placeholder="title" />
-      <input class="input" type="text" placeholder="desc" />
-      <button class="btn">ADD</button>
+      <input v-model="title" class="input" type="text" placeholder="title" />
+      <input v-model="body" class="input" type="text" placeholder="desc" />
+      <button @click.prevent="createPost" class="btn">ADD</button>
     </form>
     <div v-for="post in posts" :key="post.id" class="post">
       <h3>{{ post.title }}</h3>
@@ -22,8 +22,22 @@ export default {
         { id: 1, title: 'post 1', body: 'text of post 1' },
         { id: 1, title: 'post 2', body: 'text of post 2' },
         { id: 1, title: 'post 3', body: 'text of post 3' }
-      ]
+      ],
+      title: '',
+      body: ''
     };
+  },
+  methods: {
+    createPost() {
+      const newPost = {
+        id: Date.now(),
+        title: this.title,
+        body: this.body
+      };
+      this.posts.push(newPost);
+      this.title='',
+      this.body=''
+    }
   }
 };
 </script>
@@ -34,6 +48,10 @@ export default {
   padding: 0;
   box-sizing: border-box;
   color: #3d3d3d;
+}
+
+:root {
+  --border: 2px solid #778899;
 }
 
 .wrapper {
@@ -55,21 +73,18 @@ export default {
 .input {
   width: 100%;
   padding: 10px 15px;
-  border: 3px solid pink;
+  border: var(--border);
 }
 
 .btn {
   width: 100px;
   padding: 5px;
-  border: 3px solid pink;
-  background-color: pink;
-  color: white;
-  font-weight: 600;
+  border: var(--border);
 }
 
 .post {
   padding: 20px;
   width: 100%;
-  border: 3px solid pink;
+  border: var(--border);
 }
 </style>
